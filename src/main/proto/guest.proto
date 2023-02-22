@@ -9,14 +9,14 @@ option java_outer_classname = "GuestGrpcProto";
 package guest;
 
 service GuestServices {
-  rpc Enrollment (GuestGuruGuestEnrollmentRequest) returns (GuestGuruGuestEnrollmentReply) {}
+  rpc Enrollment (HubLoungeGuestEnrollmentRequest) returns (HubLoungeGuestEnrollmentReply) {}
 }
 
-message GuestGuruGuestEnrollmentRequest {
+message HubLoungeGuestEnrollmentRequest {
   string name = 1;
   string password = 2;
 }
 
-message GuestGuruGuestEnrollmentReply {
+message HubLoungeGuestEnrollmentReply {
   errors.HubLoungeProcessErrorReply processingError = 4;
 }
