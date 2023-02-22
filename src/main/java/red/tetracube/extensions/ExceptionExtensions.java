@@ -22,6 +22,12 @@ public class ExceptionExtensions {
                         .setDescription(result.getMessage())
                         .build();
             }
+            case NOT_FOUND -> {
+                return HubLoungeProcessErrorReply.newBuilder()
+                        .setReason(ServiceErrorReason.NOT_FOUND)
+                        .setDescription(result.getMessage())
+                        .build();
+            }
         }
         return HubLoungeProcessErrorReply.newBuilder()
                 .setReason(ServiceErrorReason.INTERNAL_ERROR)

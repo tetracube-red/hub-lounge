@@ -15,8 +15,9 @@ service GuestServices {
 message HubLoungeGuestEnrollmentRequest {
   string name = 1;
   string password = 2;
+  string guest_group_name = 3;
 }
 
 message HubLoungeGuestEnrollmentReply {
-  errors.HubLoungeProcessErrorReply processingError = 4;
+  errors.HubLoungeProcessErrorReply processingError = 1;
 }
