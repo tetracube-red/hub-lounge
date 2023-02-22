@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "red.tetracube.hublounge.errors";
+option java_outer_classname = "HubLoungeErrorsProto";
+
+package errors;
+
+message HubLoungeProcessErrorReply {
+  ServiceErrorReason reason = 1;
+  string description = 2;
+}
+
+enum ServiceErrorReason {
+  CONFLICTS = 0;
+  INTERNAL_ERROR = 1;
+}
