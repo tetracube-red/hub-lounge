@@ -5,6 +5,7 @@ import org.hibernate.reactive.mutiny.Mutiny;
 import red.tetracube.data.entities.GuestGroup;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.UUID;
 
 @ApplicationScoped
 public class GuestGroupRepository {
@@ -44,6 +45,24 @@ public class GuestGroupRepository {
                         .setParameter("name", name)
                         .setMaxResults(1)
                         .getSingleResult()
+                        .eventually(session::close)
+        );
+    }
+
+    public Uni<GuestGroup> getById(UUID id) {
+        var sessionUni = sessionFactory.openSession();
+        return sessionUni.chain(session ->
+                session.createQuery("""
+                                        select guestGroup
+                                        from GuestGroup guestGroup
+                                        join fetch guestGroup.domainsAuthorities domainsAuthorities
+                                        where guestGroup.id = :id
+                                        """,
+                                GuestGroup.class
+                        )
+                        .setParameter("id", id)
+                        .getResultList()
+                        .map(results -> results.isEmpty() ? null : results.get(0))
                         .eventually(session::close)
         );
     }

@@ -38,6 +38,7 @@ public class DataValidationResult {
 
     public enum ErrorReason {
         CONFLICTS,
-        NOT_FOUND
+        NOT_FOUND,
+        UNAUTHORIZED
     }
 }

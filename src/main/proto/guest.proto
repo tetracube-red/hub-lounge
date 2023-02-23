@@ -10,6 +10,7 @@ package guest;
 
 service GuestServices {
   rpc Enrollment (HubLoungeGuestEnrollmentRequest) returns (HubLoungeGuestEnrollmentReply) {}
+  rpc Login (HubLoungeGuestLoginRequest) returns (HubLoungeGuestLoginReply) {}
 }
 
 message HubLoungeGuestEnrollmentRequest {
@@ -20,4 +21,14 @@ message HubLoungeGuestEnrollmentRequest {
 
 message HubLoungeGuestEnrollmentReply {
   errors.HubLoungeProcessErrorReply processingError = 1;
+}
+
+message HubLoungeGuestLoginRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message HubLoungeGuestLoginReply {
+  string accessToken = 1;
+  errors.HubLoungeProcessErrorReply processingError = 2;
 }

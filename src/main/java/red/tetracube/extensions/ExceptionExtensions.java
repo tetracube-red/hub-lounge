@@ -28,6 +28,12 @@ public class ExceptionExtensions {
                         .setDescription(result.getMessage())
                         .build();
             }
+            case UNAUTHORIZED -> {
+                return HubLoungeProcessErrorReply.newBuilder()
+                        .setReason(ServiceErrorReason.UNAUTHORIZED)
+                        .setDescription(result.getMessage())
+                        .build();
+            }
         }
         return HubLoungeProcessErrorReply.newBuilder()
                 .setReason(ServiceErrorReason.INTERNAL_ERROR)

@@ -5,10 +5,7 @@ import io.smallrye.mutiny.Uni;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import red.tetracube.extensions.ExceptionExtensions;
-import red.tetracube.hublounge.guest.GuestServices;
-import red.tetracube.hublounge.guest.HubLoungeGuestEnrollmentReply;
-import red.tetracube.hublounge.guest.HubLoungeGuestEnrollmentRequest;
-import red.tetracube.hublounge.hub.HubLoungeHubCreateReply;
+import red.tetracube.hublounge.guest.*;
 
 import javax.inject.Inject;
 
@@ -17,6 +14,9 @@ public class GuestServicesImplementation implements GuestServices {
 
     @Inject
     GuestEnrollmentService guestEnrollmentService;
+
+    @Inject
+    GuestLoginService guestLoginService;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(GuestServicesImplementation.class);
 
@@ -44,6 +44,28 @@ public class GuestServicesImplementation implements GuestServices {
                     return HubLoungeGuestEnrollmentReply.newBuilder()
                             .setProcessingError(replyError)
                             .build();
+                });
+    }
+
+    @Override
+    public Uni<HubLoungeGuestLoginReply> login(HubLoungeGuestLoginRequest request) {
+        return this.guestLoginService.validateLoginRequest(request)
+                .flatMap(dataValidationResult -> {
+                    if (!dataValidationResult.getValid()) {
+                        LOGGER.warn("Invalid request, building invalid response");
+                        var replyError = ExceptionExtensions.grpcErrorFromValidationResult(dataValidationResult);
+                        var invalidResponse = HubLoungeGuestLoginReply.newBuilder()
+                                .setProcessingError(replyError)
+                                .build();
+                        return Uni.createFrom().item(invalidResponse);
+                    }
+                    return guestLoginService.doGuestLogin(request)
+                            .map(accessToken -> {
+                                LOGGER.info("Building access token response");
+                                return HubLoungeGuestLoginReply.newBuilder()
+                                        .setAccessToken(accessToken)
+                                        .build();
+                            });
                 });
     }
 }

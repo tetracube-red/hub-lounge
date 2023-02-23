@@ -25,4 +25,12 @@ public class DomainAuthority {
 
     @ManyToMany(targetEntity = GuestGroup.class, fetch = FetchType.LAZY)
     private List<GuestGroup> guestsGroups;
+
+    public AuthorizationContext getContext() {
+        return context;
+    }
+
+    public AuthorizationContextAction getContextAction() {
+        return contextAction;
+    }
 }
