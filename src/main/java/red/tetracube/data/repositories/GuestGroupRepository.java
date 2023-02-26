@@ -5,6 +5,7 @@ import org.hibernate.reactive.mutiny.Mutiny;
 import red.tetracube.data.entities.GuestGroup;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -63,6 +64,19 @@ public class GuestGroupRepository {
                         .setParameter("id", id)
                         .getResultList()
                         .map(results -> results.isEmpty() ? null : results.get(0))
+                        .eventually(session::close)
+        );
+    }
+
+    public Uni<List<GuestGroup>> getAll() {
+        var sessionUni = sessionFactory.openSession();
+        return sessionUni.chain(session ->
+                session.createQuery("""
+                                        from GuestGroup guestGroup
+                                        """,
+                                GuestGroup.class
+                        )
+                        .getResultList()
                         .eventually(session::close)
         );
     }

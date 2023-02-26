@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "red.tetracube.hublounge.guestgroup";
+option java_outer_classname = "GuestGroupGrpcProto";
+
+package guestgroup;
+
+service GuestGroupServices {
+  rpc ListGroups (GetListGroupsRequest) returns (GetListGroupsReply) {}
+}
+
+message GetListGroupsRequest {
+}
+
+message GetListGroupsReply {
+  repeated GetListGroupReply group = 1;
+}
+
+message GetListGroupReply {
+  string id = 1;
+  string name = 2;
+}

@@ -18,9 +18,6 @@ public class Hub {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hub", targetEntity = GuestGroup.class)
-    private List<GuestGroup> guestsGroups;
-
     public Hub() {
     }
 
@@ -52,13 +49,5 @@ public class Hub {
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public List<GuestGroup> getGuestsGroups() {
-        return guestsGroups;
-    }
-
-    public void setGuestsGroups(List<GuestGroup> guestsGroups) {
-        this.guestsGroups = guestsGroups;
     }
 }

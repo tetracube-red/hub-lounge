@@ -21,10 +21,6 @@ public class GuestGroup {
     @ManyToMany(targetEntity = DomainAuthority.class, fetch = FetchType.LAZY, mappedBy = "guestsGroups")
     private List<DomainAuthority> domainsAuthorities;
 
-    @JoinColumn(name = "hub_id", nullable = false)
-    @ManyToOne(targetEntity = Hub.class, fetch = FetchType.LAZY)
-    private Hub hub;
-
     public UUID getId() {
         return id;
     }
@@ -55,13 +51,5 @@ public class GuestGroup {
 
     public void setDomainsAuthorities(List<DomainAuthority> domainsAuthorities) {
         this.domainsAuthorities = domainsAuthorities;
-    }
-
-    public Hub getHub() {
-        return hub;
-    }
-
-    public void setHub(Hub hub) {
-        this.hub = hub;
     }
 }
